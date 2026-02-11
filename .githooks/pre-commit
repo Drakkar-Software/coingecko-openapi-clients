@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+target_dir="client/python/coingecko_openapi_client"
+
+if [ -d "$target_dir" ]; then
+  # Apply post-generation patch expected by this repository.
+  find "$target_dir" -type f -name "*.py" -print0 \
+    | xargs -0 -r perl -pi -e 's/response_type=None/response_type=object/g'
+
+  git add "$target_dir"
+fi
